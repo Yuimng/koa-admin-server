@@ -4,11 +4,13 @@ import roleController from '../controller/role.controller'
 
 import { verifyAuth } from '../middleware/auth.middleware'
 
+import { verifyRole } from '../middleware/role.middleware'
+
 const roleRouter = new Router({ prefix: '/role' })
 
 roleRouter.post('/list', verifyAuth, roleController.getRoleList)
 
-// roleRouter.post('/add', verifyAuth, roleController.addRole)
+roleRouter.post('/add', verifyAuth, verifyRole, roleController.addRole)
 
 // roleRouter.post('/update', verifyAuth, roleController.updateRole)
 

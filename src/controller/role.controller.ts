@@ -29,6 +29,19 @@ class RoleController {
       msg: '获取成功',
     }
   }
+
+  async addRole(ctx: Context) {
+    const result = await roleService.addNewRole(ctx.roleParam)
+    // 错误处理
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
+    ctx.body = {
+      code: 200,
+      data: result,
+      msg: '添加角色成功',
+    }
+  }
 }
 
 export default new RoleController()

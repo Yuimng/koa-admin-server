@@ -30,7 +30,7 @@ class UserService {
         include: [
           {
             model: roleModel, // 引入并关联 Role 模型
-            attributes: ['id', 'role', 'roleName'],
+            attributes: ['id', 'role', 'roleName', 'isSuper'],
           },
         ],
         attributes: [
@@ -50,6 +50,7 @@ class UserService {
           roleId: user.dataValues.sys_roles[0].id,
           role: user.dataValues.sys_roles[0].role,
           roleName: user.dataValues.sys_roles[0].roleName,
+          isSuper: user.dataValues.sys_roles[0].isSuper,
           sys_roles: undefined, // 去除 sys_roles 属性
         }
       } else {

@@ -8,4 +8,5 @@ export enum ERROR_TYPES {
   MENU_NOT_EXISTS = '菜单不存在',
   ADMINISTRATION_CANNOT_BE_DELETED = '管理员不能被删除',
   ADMINISTRATION_CANNOT_BE_MODIFIED = '管理员不能被修改',
+  ROLE_ALREADY_EXISTS = '角色名已经存在',
 }
