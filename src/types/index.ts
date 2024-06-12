@@ -33,6 +33,11 @@ export interface UserPageParams extends PageParams {
   username: string
 }
 
+export interface RolePageParams extends PageParams {
+  role: string
+  isSuper: number
+}
+
 export interface MenuBase {
   id: number
   name: string
