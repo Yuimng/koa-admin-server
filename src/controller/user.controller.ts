@@ -34,6 +34,10 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
     const result = await userService.getUserList(searchParams)
+    // 错误处理
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
     ctx.body = {
       code: 200,
       data: result,
@@ -42,10 +46,14 @@ class UserController {
   }
 
   async addUser(ctx: Context) {
-    await userService.addNewUser(ctx.user)
+    const result = await userService.addNewUser(ctx.user)
+    // 错误处理
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
     ctx.body = {
       code: 200,
-      data: null,
+      data: result,
       msg: '添加用户成功',
     }
   }
@@ -81,10 +89,14 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
     // 4.更新用户信息
-    await userService.updateUser(user)
+    const result = await userService.updateUser(user)
+    // 错误处理
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
     ctx.body = {
       code: 200,
-      data: null,
+      data: result,
       msg: '修改用户成功',
     }
   }
@@ -112,10 +124,14 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
 
-    await userService.deleteUser(body.id)
+    const result = await userService.deleteUser(body.id)
+    // 错误处理
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
     ctx.body = {
       code: 200,
-      data: null,
+      data: result,
       msg: '删除用户成功',
     }
   }

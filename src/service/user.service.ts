@@ -91,7 +91,7 @@ class UserService {
         rows: formatRows,
       }
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 
@@ -117,8 +117,9 @@ class UserService {
           { transaction: t }
         )
       })
+      return 'ok'
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 
@@ -150,8 +151,9 @@ class UserService {
           })
         }
       })
+      return 'ok'
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 
@@ -170,8 +172,9 @@ class UserService {
           transaction: t,
         })
       })
+      return 'ok'
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 }
