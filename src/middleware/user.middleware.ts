@@ -24,6 +24,10 @@ const verifyUser = async (ctx: Context, next: Next) => {
     await schema.validateAsync(user)
     // 判断用户名不能重复
     const old_user = await userService.getUserByName(user.username)
+    // 错误处理
+    if (old_user instanceof Error) {
+      return ctx.app.emit('error', old_user, ctx)
+    }
     if (old_user) {
       const error = new Error(ERROR_TYPES.USER_ALREADY_EXISTS)
       return ctx.app.emit('error', error, ctx)

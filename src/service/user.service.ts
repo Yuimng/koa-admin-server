@@ -11,9 +11,13 @@ class UserService {
           userName: name,
         },
       })
-      return result?.dataValues
+      if (result) {
+        return result.dataValues
+      } else {
+        return null
+      }
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 
@@ -52,7 +56,7 @@ class UserService {
         return null
       }
     } catch (error) {
-      console.log(error)
+      return new Error(error)
     }
   }
 
