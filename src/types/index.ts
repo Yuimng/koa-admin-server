@@ -31,6 +31,14 @@ export interface RoleParams {
   remark: string
 }
 
+export interface UpdateRoleParams {
+  id: number
+  role: string
+  roleName: string
+  isSuper: number
+  remark: string
+}
+
 export interface PageParams {
   pageNo: number
   pageSize: number

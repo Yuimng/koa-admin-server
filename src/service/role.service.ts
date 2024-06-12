@@ -1,8 +1,24 @@
 import { Op } from 'sequelize'
 import { roleModel } from '../models'
-import { RolePageParams, RoleParams } from '../types'
+import { RolePageParams, RoleParams, UpdateRoleParams } from '../types'
 
 class RoleService {
+  async getRoleById(id: number) {
+    try {
+      const result = await roleModel.findOne({
+        where: {
+          id: id,
+        },
+      })
+      if (result) {
+        return result.dataValues
+      } else {
+        return null
+      }
+    } catch (error) {
+      return new Error(error)
+    }
+  }
   async getRoleByName(name: string) {
     try {
       const result = await roleModel.findOne({
@@ -54,6 +70,28 @@ class RoleService {
         isSuper: params.isSuper,
         remark: params.remark,
       })
+      return 'ok'
+    } catch (error) {
+      return new Error(error)
+    }
+  }
+
+  async updateRole(params: UpdateRoleParams) {
+    try {
+      const { id, role, roleName, isSuper, remark } = params
+      await roleModel.update(
+        {
+          role,
+          roleName,
+          isSuper,
+          remark,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      )
       return 'ok'
     } catch (error) {
       return new Error(error)

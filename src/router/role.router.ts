@@ -12,7 +12,7 @@ roleRouter.post('/list', verifyAuth, roleController.getRoleList)
 
 roleRouter.post('/add', verifyAuth, verifyRole, roleController.addRole)
 
-// roleRouter.post('/update', verifyAuth, roleController.updateRole)
+roleRouter.post('/update', verifyAuth, roleController.updateRole)
 
 // roleRouter.post('/delete', verifyAuth, roleController.deleteRole)
 
