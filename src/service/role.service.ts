@@ -1,5 +1,5 @@
 import { Op } from 'sequelize'
-import { roleModel } from '../models'
+import { roleModel, userRoleModel } from '../models'
 import { RolePageParams, RoleParams, UpdateRoleParams } from '../types'
 
 class RoleService {
@@ -93,6 +93,33 @@ class RoleService {
         }
       )
       return 'ok'
+    } catch (error) {
+      return new Error(error)
+    }
+  }
+
+  async deleteRole(id: number) {
+    try {
+      await roleModel.destroy({
+        where: {
+          id,
+        },
+      })
+      return 'ok'
+    } catch (error) {
+      return new Error(error)
+    }
+  }
+
+  async getUserByRoleId(roleId: number) {
+    try {
+      const userIds = await userRoleModel.findAll({
+        attributes: ['userId'],
+        where: {
+          roleId: roleId,
+        },
+      })
+      return userIds
     } catch (error) {
       return new Error(error)
     }

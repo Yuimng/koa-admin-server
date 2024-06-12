@@ -103,6 +103,55 @@ class RoleController {
       msg: '更新角色成功',
     }
   }
+
+  async deleteRole(ctx: Context) {
+    const body = ctx.request.body as { id: number }
+    // 1.验证必要参数
+    const schema = Joi.object({
+      id: Joi.number().required(),
+    })
+    try {
+      await schema.validateAsync(body)
+    } catch (error) {
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    // 2.初始角色不可删除
+    if (body.id === 1 || body.id === 2) {
+      const error = new Error(ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_DELETED)
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    // 3.验证角色是否存在
+    const role = await roleService.getRoleById(body.id)
+    if (role instanceof Error) {
+      return ctx.app.emit('error', role, ctx)
+    }
+    if (!role) {
+      const error = new Error(ERROR_TYPES.ROLE_NOT_EXISTS)
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    // 4.查询角色关联的用户，有关联不可删除
+    const associatedUsers = await roleService.getUserByRoleId(body.id)
+    if (associatedUsers instanceof Error) {
+      return ctx.app.emit('error', associatedUsers, ctx)
+    }
+    if (associatedUsers.length > 0) {
+      const error = new Error(ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS)
+      return ctx.app.emit('error', error, ctx)
+    }
+    // 5.删除角色
+    const result = await roleService.deleteRole(body.id)
+    if (result instanceof Error) {
+      return ctx.app.emit('error', result, ctx)
+    }
+    ctx.body = {
+      code: 200,
+      data: result,
+      msg: '删除角色成功',
+    }
+  }
 }
 
 export default new RoleController()

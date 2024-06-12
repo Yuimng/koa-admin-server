@@ -54,6 +54,14 @@ export const errorHandler = (error: { message: string }, ctx: Context) => {
       status = 409
       msg = ERROR_TYPES.ROLE_ALREADY_EXISTS
       break
+    case ERROR_TYPES.ROLE_NOT_EXISTS:
+      status = 400
+      msg = ERROR_TYPES.ROLE_NOT_EXISTS
+      break
+    case ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS:
+      status = 400
+      msg = ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS
+      break
     default:
       status = 404
       msg = error.message // 默认返回的错误信息
