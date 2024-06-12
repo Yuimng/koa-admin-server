@@ -10,6 +10,8 @@ const roleRouter = new Router({ prefix: '/role' })
 
 roleRouter.post('/list', verifyAuth, roleController.getRoleList)
 
+roleRouter.post('/listAll', verifyAuth, roleController.getRoleAllList)
+
 roleRouter.post('/add', verifyAuth, verifyRole, roleController.addRole)
 
 roleRouter.post('/update', verifyAuth, roleController.updateRole)

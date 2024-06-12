@@ -62,6 +62,19 @@ class RoleService {
     }
   }
 
+  async getRoleAllList() {
+    try {
+      const result = await roleModel.findAll({
+        attributes: {
+          exclude: ['updatedAt'],
+        },
+      })
+      return result
+    } catch (error) {
+      return new Error(error)
+    }
+  }
+
   async addNewRole(params: RoleParams) {
     try {
       await roleModel.create({
