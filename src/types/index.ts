@@ -24,9 +24,13 @@ export interface UpdateUserParams {
   remark: string
 }
 
-export interface pageParams {
+export interface PageParams {
   pageNo: number
   pageSize: number
+}
+
+export interface UserPageParams extends PageParams {
+  username: string
 }
 
 export interface MenuBase {

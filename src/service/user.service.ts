@@ -1,7 +1,7 @@
-import { QueryTypes, Transaction } from 'sequelize'
+import { Op, Transaction } from 'sequelize'
 import sequelizeBase from '../config/mysql'
 import { roleModel, userModel, userRoleModel } from '../models'
-import { UpdateUserParams, UserParams, pageParams } from '../types'
+import { UserPageParams, UpdateUserParams, UserParams } from '../types'
 
 class UserService {
   async getUserByName(name: string) {
@@ -56,9 +56,14 @@ class UserService {
     }
   }
 
-  async getUserList(page: pageParams) {
+  async getUserList(params: UserPageParams) {
     try {
       const { count, rows } = await userModel.findAndCountAll({
+        where: {
+          userName: {
+            [Op.like]: '%' + params.username + '%',
+          },
+        },
         include: [
           {
             model: roleModel, // 引入并关联 Role 模型
@@ -68,8 +73,8 @@ class UserService {
         attributes: {
           exclude: ['userPassword', 'updatedAt', 'deletedAt'],
         },
-        offset: page.pageSize * (page.pageNo - 1),
-        limit: page.pageSize,
+        offset: params.pageSize * (params.pageNo - 1),
+        limit: params.pageSize,
       })
       const formatRows = rows.map((user) => {
         const userAny = user as any

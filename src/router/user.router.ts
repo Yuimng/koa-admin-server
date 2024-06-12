@@ -10,7 +10,7 @@ const userRouter = new Router({ prefix: '/user' })
 
 userRouter.get('/:userId', verifyAuth, userController.userInfo)
 
-userRouter.post('/getList', verifyAuth, userController.getUserList)
+userRouter.post('/list', verifyAuth, userController.getUserList)
 
 userRouter.post(
   '/add',

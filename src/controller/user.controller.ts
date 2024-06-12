@@ -3,7 +3,7 @@ import { Context } from 'koa'
 import userService from '../service/user.service'
 import { ERROR_TYPES } from '../constant'
 import Joi from 'joi'
-import { UpdateUserParams, pageParams } from 'src/types'
+import { UserPageParams, UpdateUserParams } from '../types'
 
 class UserController {
   async userInfo(ctx: Context) {
@@ -21,18 +21,19 @@ class UserController {
   }
 
   async getUserList(ctx: Context) {
-    const pageParams = ctx.request.body as pageParams
+    const searchParams = ctx.request.body as UserPageParams
     const schema = Joi.object({
+      username: Joi.string().empty(''),
       pageSize: Joi.number().required(),
       pageNo: Joi.number().required(),
     })
     try {
       // 验证必要参数
-      await schema.validateAsync(pageParams)
+      await schema.validateAsync(searchParams)
     } catch (error) {
       return ctx.app.emit('error', error, ctx)
     }
-    const result = await userService.getUserList(pageParams)
+    const result = await userService.getUserList(searchParams)
     ctx.body = {
       code: 200,
       data: result,
