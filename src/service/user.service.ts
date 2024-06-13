@@ -117,7 +117,7 @@ class UserService {
         await userRoleModel.create(
           {
             userId: newUser.dataValues.id,
-            roleId: user.roleId || 2, // 默认非管理员角色
+            roleId: user.roleId,
           },
           { transaction: t }
         )

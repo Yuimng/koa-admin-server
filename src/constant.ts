@@ -13,4 +13,5 @@ export enum ERROR_TYPES {
   INITIAL_ROLE_CANNOT_BE_DELETED = '初始角色不能被删除',
   INITIAL_ROLE_CANNOT_BE_MODIFIED = '初始角色不能被修改',
   ROLE_HAS_ASSOCIATED_USERS = '角色拥有关联用户',
+  ADMINISTRATION_CANNOT_BE_SELECT = '管理员角色不能被选中',
 }

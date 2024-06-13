@@ -35,19 +35,19 @@ export const errorHandler = (error: { message: string }, ctx: Context) => {
       msg = ERROR_TYPES.MENU_NOT_EXISTS
       break
     case ERROR_TYPES.ADMINISTRATION_CANNOT_BE_DELETED:
-      status = 400
+      status = 401
       msg = ERROR_TYPES.ADMINISTRATION_CANNOT_BE_DELETED
       break
     case ERROR_TYPES.ADMINISTRATION_CANNOT_BE_MODIFIED:
-      status = 400
+      status = 401
       msg = ERROR_TYPES.ADMINISTRATION_CANNOT_BE_MODIFIED
       break
     case ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_MODIFIED:
-      status = 400
+      status = 401
       msg = ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_MODIFIED
       break
     case ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_DELETED:
-      status = 400
+      status = 401
       msg = ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_DELETED
       break
     case ERROR_TYPES.ROLE_ALREADY_EXISTS:
@@ -61,6 +61,10 @@ export const errorHandler = (error: { message: string }, ctx: Context) => {
     case ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS:
       status = 400
       msg = ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS
+      break
+    case ERROR_TYPES.ADMINISTRATION_CANNOT_BE_SELECT:
+      status = 401
+      msg = ERROR_TYPES.ADMINISTRATION_CANNOT_BE_SELECT
       break
     default:
       status = 404
