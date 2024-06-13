@@ -8,7 +8,7 @@ import { handlePassword, verifyUser } from '../middleware/user.middleware'
 
 const userRouter = new Router({ prefix: '/user' })
 
-userRouter.post('/:userId', verifyAuth, userController.userInfo)
+userRouter.get('/:userId', verifyAuth, userController.userInfo)
 
 userRouter.post('/list', verifyAuth, userController.getUserList)
 
