@@ -13,21 +13,18 @@ const model = sequelize.define(
     },
     // 昵称
     name: {
-      type: DataTypes.STRING(50),
-      field: 'name',
+      type: DataTypes.STRING(100),
     },
     // 登录名称
-    userName: {
-      type: DataTypes.STRING(50),
+    username: {
+      type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
-      field: 'user_name',
     },
     // 登录密码
-    userPassword: {
+    password: {
       type: DataTypes.STRING(400),
       allowNull: false,
-      field: 'user_password',
     },
     email: {
       type: DataTypes.STRING(100),
@@ -40,11 +37,6 @@ const model = sequelize.define(
     },
     remark: {
       type: DataTypes.STRING(200),
-    },
-    isEnable: {
-      type: DataTypes.TINYINT,
-      defaultValue: 1,
-      field: 'is_enable',
     },
     createdAt: {
       type: DataTypes.DATE,

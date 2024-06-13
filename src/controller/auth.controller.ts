@@ -5,19 +5,19 @@ import { LoginParams } from '../types'
 
 class AuthController {
   async login(ctx: Context) {
-    const { id, userName } = ctx.user
+    const { id, username } = ctx.user
     const { expires7d } = ctx.request.body as LoginParams
     // token 有效期
     const expires = expires7d ? '7d' : '24h'
 
-    const token = jwt.sign({ id, userName }, PRIVATE_KEY, {
+    const token = jwt.sign({ id, username }, PRIVATE_KEY, {
       expiresIn: expires,
       algorithm: 'RS256',
     })
 
     ctx.body = {
       code: 200,
-      data: { id, user_name: userName, token },
+      data: { id, username, token },
       msg: '登录成功',
     }
   }

@@ -5,6 +5,9 @@ import { corsHandler } from './cors'
 import { errorHandler } from './error-handler'
 import { router } from '../router'
 
+// import synchonize from '../models/sync'
+// synchonize()
+
 const app = new Koa()
 
 // ctx.body

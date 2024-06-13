@@ -22,10 +22,15 @@ const model = sequelize.define(
       allowNull: false,
     },
     // 上一级菜单id
-    parent_id: {
+    parentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
+      field: 'parent_id',
+    },
+    // 排序
+    sort: {
+      type: DataTypes.INTEGER,
     },
     // 具体名称
     title: {
@@ -36,34 +41,25 @@ const model = sequelize.define(
     icon: {
       type: DataTypes.STRING,
     },
-    // 具体链接地址代表链接菜单 空字符串则不是
+    // 是否链接 ：0否 1是path 为 https://xxx.com
     isLink: {
-      type: DataTypes.STRING,
+      type: DataTypes.TINYINT,
       field: 'is_link',
     },
-    // 是否显示：0否 1是*/
-    isHide: {
+    // 是否启用：0否 1是
+    isEnable: {
       type: DataTypes.TINYINT,
-      field: 'is_hide',
+      field: 'is_enable',
     },
-    // 是否全屏：0否 1是*/
-    isFull: {
-      type: DataTypes.TINYINT,
-      field: 'is_full',
-    },
-    // 是否固定：0否 1是*/
+    // 是否固定：0否 1是
     isAffix: {
       type: DataTypes.TINYINT,
       field: 'is_affix',
     },
-    // 是否缓存：0否 1是*/
+    // 是否缓存：0否 1是
     isKeepAlive: {
       type: DataTypes.TINYINT,
       field: 'is_keep_alive',
-    },
-    // 排序
-    sort: {
-      type: DataTypes.INTEGER,
     },
     createdAt: {
       type: DataTypes.DATE,

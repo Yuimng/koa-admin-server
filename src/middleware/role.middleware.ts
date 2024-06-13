@@ -24,7 +24,7 @@ const verifyRole = async (ctx: Context, next: Next) => {
   }
 
   // 3.先验证登录用户是否为管理员
-  // verifyAuth   ctx.user = {"id": 1,"userName": "admin_test","iat": 1718075827, "exp": 1718162227 }
+  // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
   const userinfo = await userService.getUserInfoById(ctx.user.id)
   if (userinfo instanceof Error) {
     return ctx.app.emit('error', userinfo, ctx)

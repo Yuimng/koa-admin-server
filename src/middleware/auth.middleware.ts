@@ -31,7 +31,7 @@ const verifyLogin = async (ctx: Context, next: Next) => {
 
   // 4.判断密码和数据库密码是否一致（加密）
   // bcrypt.compareSync(用户输入密码, 数据库hash密码)
-  const isMatch = bcrypt.compareSync(password, user.userPassword)
+  const isMatch = bcrypt.compareSync(password, user.password)
   if (!isMatch) {
     const error = new Error(ERROR_TYPES.PASSWORD_IS_INCORRECT)
     return ctx.app.emit('error', error, ctx)
@@ -58,7 +58,7 @@ const verifyAuth = async (ctx: Context, next: Next) => {
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
     })
-    ctx.user = result // {"id": 1,"userName": "admin_test","iat": 1718075827, "exp": 1718162227 }
+    ctx.user = result // {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
     await next()
   } catch (err) {
     const error = new Error(ERROR_TYPES.UNAUTHORIZATION)

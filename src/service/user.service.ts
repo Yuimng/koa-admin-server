@@ -8,7 +8,7 @@ class UserService {
     try {
       const result = await userModel.findOne({
         where: {
-          userName: name,
+          username: name,
         },
       })
       if (result) {
@@ -36,7 +36,7 @@ class UserService {
         attributes: [
           'id',
           'name',
-          'userName',
+          'username',
           'email',
           'phone',
           'avatar',
@@ -65,7 +65,7 @@ class UserService {
     try {
       const { count, rows } = await userModel.findAndCountAll({
         where: {
-          userName: {
+          username: {
             [Op.like]: '%' + params.username + '%',
           },
         },
@@ -76,7 +76,7 @@ class UserService {
           },
         ],
         attributes: {
-          exclude: ['userPassword', 'updatedAt', 'deletedAt'],
+          exclude: ['password', 'updatedAt', 'deletedAt'],
         },
         offset: params.pageSize * (params.pageNo - 1),
         limit: params.pageSize,
@@ -105,8 +105,8 @@ class UserService {
       await sequelizeBase.transaction(async (t: any) => {
         const newUser = await userModel.create(
           {
-            userName: user.username,
-            userPassword: user.password,
+            username: user.username,
+            password: user.password,
             name: user.name || '',
             email: user.email || '',
             phone: user.phone || '',
@@ -133,7 +133,7 @@ class UserService {
       await sequelizeBase.transaction(async (t: any) => {
         await userModel.update(
           {
-            userName: user.username,
+            username: user.username,
             name: user.name,
             email: user.email,
             phone: user.phone,

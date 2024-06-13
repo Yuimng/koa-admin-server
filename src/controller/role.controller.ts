@@ -81,7 +81,7 @@ class RoleController {
       return ctx.app.emit('error', error, ctx)
     }
     // 3.先验证登录用户是否为管理员
-    // verifyAuth   ctx.user = {"id": 1,"userName": "admin_test","iat": 1718075827, "exp": 1718162227 }
+    // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
     const loginUser = await userService.getUserInfoById(ctx.user.id)
     if (loginUser instanceof Error) {
       return ctx.app.emit('error', loginUser, ctx)
