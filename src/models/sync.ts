@@ -6,7 +6,7 @@ import userRoleModel from './userRole.model'
 import menuModel from './menu.model'
 import roleMenuModel from './roleMenu.model'
 
-import { ADMIN_CONFIG } from '../config'
+import { ADMIN_CONFIG, TEST_CONFIG } from '../config'
 
 const synchonize = async () => {
   await sequelize.sync({ force: true }) // 同步
@@ -29,10 +29,19 @@ const synchonize = async () => {
     password: ADMIN_CONFIG.password,
     name: ADMIN_CONFIG.name,
   })
-  // 添加角色和用户关联
   await userRoleModel.create({
     userId: newUser.dataValues.id,
     roleId: adminRole.dataValues.id,
+  })
+
+  const newTester = await userModel.create({
+    username: TEST_CONFIG.username,
+    password: TEST_CONFIG.password,
+    name: TEST_CONFIG.name,
+  })
+  await userRoleModel.create({
+    userId: newTester.dataValues.id,
+    roleId: userRole.dataValues.id,
   })
 
   // 初始菜单数据
@@ -48,10 +57,6 @@ const synchonize = async () => {
     isAffix: 1,
     isKeepAlive: 1,
   })
-  await roleMenuModel.create({
-    roleId: adminRole.dataValues.id,
-    menuId: menu1.dataValues.id,
-  })
 
   const menu2 = await menuModel.create({
     name: 'system',
@@ -64,10 +69,6 @@ const synchonize = async () => {
     isEnable: 1,
     isAffix: 0,
     isKeepAlive: 1,
-  })
-  await roleMenuModel.create({
-    roleId: adminRole.dataValues.id,
-    menuId: menu2.dataValues.id,
   })
 
   const menu3 = await menuModel.create({
@@ -82,10 +83,6 @@ const synchonize = async () => {
     isAffix: 0,
     isKeepAlive: 1,
   })
-  await roleMenuModel.create({
-    roleId: adminRole.dataValues.id,
-    menuId: menu3.dataValues.id,
-  })
 
   const menu4 = await menuModel.create({
     name: 'roleManage',
@@ -98,10 +95,6 @@ const synchonize = async () => {
     isEnable: 1,
     isAffix: 0,
     isKeepAlive: 1,
-  })
-  await roleMenuModel.create({
-    roleId: adminRole.dataValues.id,
-    menuId: menu4.dataValues.id,
   })
 
   const menu5 = await menuModel.create({
@@ -116,10 +109,6 @@ const synchonize = async () => {
     isAffix: 0,
     isKeepAlive: 1,
   })
-  await roleMenuModel.create({
-    roleId: adminRole.dataValues.id,
-    menuId: menu5.dataValues.id,
-  })
 
   const menu6 = await menuModel.create({
     name: 'departmentManage',
@@ -133,9 +122,37 @@ const synchonize = async () => {
     isAffix: 0,
     isKeepAlive: 1,
   })
+
+  // 管理员用户菜单
+  await roleMenuModel.create({
+    roleId: adminRole.dataValues.id,
+    menuId: menu1.dataValues.id,
+  })
+  await roleMenuModel.create({
+    roleId: adminRole.dataValues.id,
+    menuId: menu2.dataValues.id,
+  })
+  await roleMenuModel.create({
+    roleId: adminRole.dataValues.id,
+    menuId: menu3.dataValues.id,
+  })
+  await roleMenuModel.create({
+    roleId: adminRole.dataValues.id,
+    menuId: menu4.dataValues.id,
+  })
+  await roleMenuModel.create({
+    roleId: adminRole.dataValues.id,
+    menuId: menu5.dataValues.id,
+  })
   await roleMenuModel.create({
     roleId: adminRole.dataValues.id,
     menuId: menu6.dataValues.id,
+  })
+
+  // 普通用户菜单
+  await roleMenuModel.create({
+    roleId: userRole.dataValues.id,
+    menuId: menu1.dataValues.id,
   })
 }
 

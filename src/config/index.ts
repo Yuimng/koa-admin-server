@@ -25,3 +25,9 @@ export const ADMIN_CONFIG = {
   password: process.env.ADMIN_PASSWORD as string,
   name: process.env.ADMIN_NAME as string,
 }
+
+export const TEST_CONFIG = {
+  username: process.env.TEST_USERNAME as string,
+  password: process.env.TEST_PASSWORD as string,
+  name: process.env.TEST_NAME as string,
+}
