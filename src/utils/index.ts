@@ -19,27 +19,23 @@ export const PasswordToHash = (password: string) => {
  */
 export const formatMenus = (menus: any[]) => {
   const menuList: Menu[] = []
-  menus.forEach((item) => {
-    const menu = item.dataValues // 取值
+  menus.forEach((menu) => {
     menuList.push({
       id: menu.id,
       name: menu.name,
       path: menu.path,
-      component: menu.component,
-      parentId: menu.parent_id, // 驼峰命名转换
+      parentId: menu.parentId, // 驼峰命名转换
       sort: menu.sort,
       meta: {
         // 以下数据转为meta对象的值
-        icon: menu.icon,
         title: menu.title,
+        icon: menu.icon,
+        isEnable: menu.isEnable,
         isLink: menu.isLink,
-        isHide: menu.isHide,
-        isFull: menu.isFull,
         isAffix: menu.isAffix,
         isKeepAlive: menu.isKeepAlive,
       },
       createdAt: menu.createdAt,
-      updatedAt: menu.updatedAt,
     })
   })
   // 将格式化的所有菜单根据 parentId 构建嵌套菜单
