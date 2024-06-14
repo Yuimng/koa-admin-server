@@ -9,10 +9,6 @@ class UserController {
   async userInfo(ctx: Context) {
     const { userId } = ctx.params
     const result = await userService.getUserInfoById(userId)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
     if (!result) {
       const error = new Error(ERROR_TYPES.USER_NOT_EXISTS)
       return ctx.app.emit('error', error, ctx)
@@ -24,7 +20,7 @@ class UserController {
     }
   }
 
-  async getUserList(ctx: Context) {
+  async userList(ctx: Context) {
     const searchParams = ctx.request.body as UserPageParams
     const schema = Joi.object({
       username: Joi.string().empty(''),
@@ -38,10 +34,7 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
     const result = await userService.getUserList(searchParams)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -51,10 +44,7 @@ class UserController {
 
   async addUser(ctx: Context) {
     const result = await userService.addNewUser(ctx.user)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -87,10 +77,7 @@ class UserController {
     }
     // 3.判断用户名不能重复
     const old_user = await userService.getUserByName(user.username)
-    // 错误处理
-    if (old_user instanceof Error) {
-      return ctx.app.emit('error', old_user, ctx)
-    }
+
     // 与本身同名忽略 与其他同名报错
     if (old_user && old_user.id !== user.id) {
       const error = new Error(ERROR_TYPES.USER_ALREADY_EXISTS)
@@ -99,10 +86,7 @@ class UserController {
 
     // 4.更新用户信息
     const result = await userService.updateUser(user)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -128,20 +112,13 @@ class UserController {
     }
 
     const user = await userService.getUserInfoById(body.id)
-    // 错误处理
-    if (user instanceof Error) {
-      return ctx.app.emit('error', user, ctx)
-    }
     if (!user) {
       const error = new Error(ERROR_TYPES.USER_NOT_EXISTS)
       return ctx.app.emit('error', error, ctx)
     }
 
     const result = await userService.deleteUser(body.id)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,

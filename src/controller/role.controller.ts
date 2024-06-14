@@ -21,10 +21,7 @@ class RoleController {
       return ctx.app.emit('error', error, ctx)
     }
     const result = await roleService.getRoleList(searchParams)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -34,10 +31,6 @@ class RoleController {
 
   async getRoleAllList(ctx: Context) {
     const result = await roleService.getRoleAllList()
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
     ctx.body = {
       code: 200,
       data: result,
@@ -47,10 +40,7 @@ class RoleController {
 
   async addRole(ctx: Context) {
     const result = await roleService.addNewRole(ctx.roleParam)
-    // 错误处理
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -83,33 +73,21 @@ class RoleController {
     // 3.先验证登录用户是否为管理员
     // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
     const loginUser = await userService.getUserInfoById(ctx.user.id)
-    if (loginUser instanceof Error) {
-      return ctx.app.emit('error', loginUser, ctx)
-    }
-    const editRole = await roleService.getRoleById(roleParam.id)
-    if (editRole instanceof Error) {
-      return ctx.app.emit('error', editRole, ctx)
-    }
-    // 非管理员修改isSuper无效  保持编辑前的值
+
+    // 非管理员修改isSuper无效  isSuper无论如何都是0
     if (loginUser.isSuper === 0) {
-      roleParam.isSuper = editRole.isSuper
+      roleParam.isSuper = 0
     }
 
     // 4.判断用户名不能重复
     const old_role = await roleService.getRoleByName(roleParam.role)
-
-    if (old_role instanceof Error) {
-      return ctx.app.emit('error', old_role, ctx)
-    }
     // 与本身同名忽略 与其他同名报错
     if (old_role && old_role.id !== roleParam.id) {
       const error = new Error(ERROR_TYPES.ROLE_ALREADY_EXISTS)
       return ctx.app.emit('error', error, ctx)
     }
     const result = await roleService.updateRole(roleParam)
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,
@@ -137,9 +115,6 @@ class RoleController {
 
     // 3.验证角色是否存在
     const role = await roleService.getRoleById(body.id)
-    if (role instanceof Error) {
-      return ctx.app.emit('error', role, ctx)
-    }
     if (!role) {
       const error = new Error(ERROR_TYPES.ROLE_NOT_EXISTS)
       return ctx.app.emit('error', error, ctx)
@@ -147,18 +122,14 @@ class RoleController {
 
     // 4.查询角色关联的用户，有关联不可删除
     const associatedUsers = await roleService.getUserByRoleId(body.id)
-    if (associatedUsers instanceof Error) {
-      return ctx.app.emit('error', associatedUsers, ctx)
-    }
+
     if (associatedUsers.length > 0) {
       const error = new Error(ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS)
       return ctx.app.emit('error', error, ctx)
     }
     // 5.删除角色
     const result = await roleService.deleteRole(body.id)
-    if (result instanceof Error) {
-      return ctx.app.emit('error', result, ctx)
-    }
+
     ctx.body = {
       code: 200,
       data: result,

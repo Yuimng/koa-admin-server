@@ -20,10 +20,6 @@ const verifyLogin = async (ctx: Context, next: Next) => {
 
   // 3.判断用户是否存在（用户不存在）
   const user = await userService.getUserByName(username)
-  // 错误处理
-  if (user instanceof Error) {
-    return ctx.app.emit('error', user, ctx)
-  }
   if (!user) {
     const error = new Error(ERROR_TYPES.USER_NOT_EXISTS)
     return ctx.app.emit('error', error, ctx)

@@ -5,15 +5,10 @@ import menuService from '../service/menu.service'
 
 class MenuController {
   async getMenuAllList(ctx: Context) {
-    const user: any = await userService.getUserInfoById(ctx.user.id)
-    if (user instanceof Error) {
-      return ctx.app.emit('error', user, ctx)
-    }
-
-    const list = await menuService.getMenuListByRoleId(user.roleId)
-    if (list instanceof Error) {
-      return ctx.app.emit('error', list, ctx)
-    }
+    // 获取登录用户信息
+    const loginUser: any = await userService.getUserInfoById(ctx.user.id)
+    // 根据用户角色获取菜单列表
+    const list = await menuService.getMenuListByRoleId(loginUser.roleId)
 
     ctx.body = {
       code: 200,

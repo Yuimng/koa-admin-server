@@ -11,13 +11,9 @@ class UserService {
           username: name,
         },
       })
-      if (result) {
-        return result.dataValues
-      } else {
-        return null
-      }
+      return result ? result.dataValues : null
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -44,20 +40,18 @@ class UserService {
         ],
       })
 
-      if (user) {
-        return {
-          ...user.dataValues,
-          roleId: user.dataValues.sys_roles[0].id,
-          role: user.dataValues.sys_roles[0].role,
-          roleName: user.dataValues.sys_roles[0].roleName,
-          isSuper: user.dataValues.sys_roles[0].isSuper,
-          sys_roles: undefined, // 去除 sys_roles 属性
-        }
-      } else {
-        return null
-      }
+      return user
+        ? {
+            ...user.dataValues,
+            roleId: user.dataValues.sys_roles[0].id,
+            role: user.dataValues.sys_roles[0].role,
+            roleName: user.dataValues.sys_roles[0].roleName,
+            isSuper: user.dataValues.sys_roles[0].isSuper,
+            sys_roles: undefined, // 去除 sys_roles 属性
+          }
+        : null
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -96,7 +90,7 @@ class UserService {
         rows: formatRows,
       }
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -124,7 +118,7 @@ class UserService {
       })
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -158,7 +152,7 @@ class UserService {
       })
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -179,7 +173,7 @@ class UserService {
       })
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 }

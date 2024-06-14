@@ -29,9 +29,6 @@ const verifyUser = async (ctx: Context, next: Next) => {
 
   // 2.判断用户名不能重复
   const old_user = await userService.getUserByName(user.username)
-  if (old_user instanceof Error) {
-    return ctx.app.emit('error', old_user, ctx)
-  }
   if (old_user) {
     const error = new Error(ERROR_TYPES.USER_ALREADY_EXISTS)
     return ctx.app.emit('error', error, ctx)
@@ -39,13 +36,8 @@ const verifyUser = async (ctx: Context, next: Next) => {
   // 3.非管理员用户无法选择管理员角色
   // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
   const loginUser = await userService.getUserInfoById(ctx.user.id)
-  if (loginUser instanceof Error) {
-    return ctx.app.emit('error', loginUser, ctx)
-  }
+
   const selectRole = await roleService.getRoleById(user.roleId)
-  if (selectRole instanceof Error) {
-    return ctx.app.emit('error', selectRole, ctx)
-  }
   if (!selectRole) {
     const error = new Error(ERROR_TYPES.ROLE_NOT_EXISTS)
     return ctx.app.emit('error', error, ctx)

@@ -17,11 +17,10 @@ class MenuService {
           },
         ],
       })
-
       const { sys_menus } = roleWithMenus as any
       return formatMenus(sys_menus)
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 }

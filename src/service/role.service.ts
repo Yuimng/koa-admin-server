@@ -10,13 +10,9 @@ class RoleService {
           id: id,
         },
       })
-      if (result) {
-        return result.dataValues
-      } else {
-        return null
-      }
+      return result ? result.dataValues : null
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
   async getRoleByName(name: string) {
@@ -26,13 +22,9 @@ class RoleService {
           role: name,
         },
       })
-      if (result) {
-        return result.dataValues
-      } else {
-        return null
-      }
+      return result ? result.dataValues : null
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
   async getRoleList(params: RolePageParams) {
@@ -58,7 +50,7 @@ class RoleService {
         rows,
       }
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -71,7 +63,7 @@ class RoleService {
       })
       return result
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -85,7 +77,7 @@ class RoleService {
       })
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -107,7 +99,7 @@ class RoleService {
       )
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -120,7 +112,7 @@ class RoleService {
       })
       return 'ok'
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 
@@ -134,7 +126,7 @@ class RoleService {
       })
       return userIds
     } catch (error) {
-      return new Error(error)
+      console.log(error)
     }
   }
 }
