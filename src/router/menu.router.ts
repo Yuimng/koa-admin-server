@@ -6,6 +6,8 @@ import { verifyAuth } from '../middleware/auth.middleware'
 
 const menuRouter = new Router({ prefix: '/menu' })
 
-menuRouter.post('/listAll', verifyAuth, menuController.getMenuAllList)
+menuRouter.post('/list', verifyAuth, menuController.menuListByRole)
+
+menuRouter.post('/listAll', verifyAuth, menuController.allMenuList)
 
 export default menuRouter
