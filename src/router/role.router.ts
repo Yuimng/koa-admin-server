@@ -18,4 +18,6 @@ roleRouter.post('/update', verifyAuth, roleController.updateRole)
 
 roleRouter.post('/delete', verifyAuth, roleController.deleteRole)
 
+roleRouter.post('/useMenus', verifyAuth, roleController.getUseMenus)
+
 export default roleRouter

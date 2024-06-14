@@ -143,6 +143,25 @@ class RoleController {
       msg: '删除角色成功',
     }
   }
+
+  async getUseMenus(ctx: Context) {
+    const body = ctx.request.body as { roleId: number }
+    // 1.验证必要参数
+    const schema = Joi.object({
+      roleId: Joi.number().required(),
+    })
+    try {
+      await schema.validateAsync(body)
+    } catch (error) {
+      return ctx.app.emit('error', error, ctx)
+    }
+    const result = await roleService.getMenuIdsByRoleId(body.roleId)
+    ctx.body = {
+      code: 200,
+      data: result,
+      msg: '获取成功',
+    }
+  }
 }
 
 export default new RoleController()

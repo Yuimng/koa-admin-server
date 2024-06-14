@@ -28,6 +28,19 @@ class RoleService {
       console.log(error)
     }
   }
+
+  async getMenuIdsByRoleId(roleId: number) {
+    try {
+      const result = await roleMenuModel.findAll({
+        where: {
+          roleId: roleId,
+        },
+      })
+      return result ? result.map((item) => item.dataValues.menuId) : []
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async getRoleList(params: RolePageParams) {
     try {
       const whereConditions: any = {
