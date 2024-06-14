@@ -73,10 +73,10 @@ class RoleController {
     // 3.先验证登录用户是否为管理员
     // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
     const loginUser = await userService.getUserInfoById(ctx.user.id)
-
-    // 非管理员修改isSuper无效  isSuper无论如何都是0
-    if (loginUser.isSuper === 0) {
-      roleParam.isSuper = 0
+    // 非管理员修改isSuper无权限
+    if (loginUser.isSuper === 0 && roleParam.isSuper === 1) {
+      const error = new Error(ERROR_TYPES.UNPERMISSION)
+      return ctx.app.emit('error', error, ctx)
     }
 
     // 4.判断用户名不能重复
