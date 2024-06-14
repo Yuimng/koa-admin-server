@@ -10,7 +10,7 @@ class RoleController {
     const searchParams = ctx.request.body as RolePageParams
     const schema = Joi.object({
       role: Joi.string().empty(''),
-      isSuper: Joi.number().empty(''),
+      isSuper: Joi.number().valid(0, 1, 2),
       pageSize: Joi.number().required(),
       pageNo: Joi.number().required(),
     })
