@@ -29,15 +29,9 @@ class UserService {
             attributes: ['id', 'role', 'roleName', 'isSuper'],
           },
         ],
-        attributes: [
-          'id',
-          'name',
-          'username',
-          'email',
-          'phone',
-          'avatar',
-          'remark',
-        ],
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'],
+        },
       })
 
       return user
