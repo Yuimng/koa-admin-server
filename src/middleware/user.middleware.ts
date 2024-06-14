@@ -45,7 +45,7 @@ const verifyUser = async (ctx: Context, next: Next) => {
 
   // 非管理员修改isSuper无效  保持编辑前的值
   if (loginUser.isSuper === 0 && selectRole.isSuper === 1) {
-    const error = new Error(ERROR_TYPES.ADMINISTRATION_CANNOT_BE_SELECT)
+    const error = new Error(ERROR_TYPES.UNPERMISSION)
     return ctx.app.emit('error', error, ctx)
   }
 

@@ -72,7 +72,7 @@ class UserController {
     }
     // 2.管理员不可修改
     if (user.id === 1) {
-      const error = new Error(ERROR_TYPES.ADMINISTRATION_CANNOT_BE_MODIFIED)
+      const error = new Error(ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_MODIFIED)
       return ctx.app.emit('error', error, ctx)
     }
     // 3.判断用户名不能重复
@@ -107,13 +107,20 @@ class UserController {
     }
     // 管理员不可删除
     if (body.id === 1) {
-      const error = new Error(ERROR_TYPES.ADMINISTRATION_CANNOT_BE_DELETED)
+      const error = new Error(ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_DELETED)
       return ctx.app.emit('error', error, ctx)
     }
+
+    const loginUser = await userService.getUserInfoById(ctx.user.id)
 
     const user = await userService.getUserInfoById(body.id)
     if (!user) {
       const error = new Error(ERROR_TYPES.USER_NOT_EXISTS)
+      return ctx.app.emit('error', error, ctx)
+    }
+    // 非管理员不可删除管理员用户
+    if (user && user.isSuper === 1 && loginUser.isSuper !== 1) {
+      const error = new Error(ERROR_TYPES.UNPERMISSION)
       return ctx.app.emit('error', error, ctx)
     }
 
