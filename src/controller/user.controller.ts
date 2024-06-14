@@ -75,7 +75,17 @@ class UserController {
       const error = new Error(ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_MODIFIED)
       return ctx.app.emit('error', error, ctx)
     }
-    // 3.判断用户名不能重复
+
+    // 3.先验证登录用户是否为管理员
+    const loginUser = await userService.getUserInfoById(ctx.user.id)
+    // 非管理员修改管理员用户无权限
+    const editUser = await userService.getUserInfoById(user.id)
+    if (editUser && editUser.isSuper === 1 && loginUser.isSuper === 0) {
+      const error = new Error(ERROR_TYPES.UNPERMISSION)
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    // 4.判断用户名不能重复
     const old_user = await userService.getUserByName(user.username)
 
     // 与本身同名忽略 与其他同名报错
@@ -84,7 +94,7 @@ class UserController {
       return ctx.app.emit('error', error, ctx)
     }
 
-    // 4.更新用户信息
+    // 5.更新用户信息
     const result = await userService.updateUser(user)
 
     ctx.body = {
