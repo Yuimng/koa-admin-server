@@ -1,18 +1,17 @@
 import { Op } from 'sequelize'
 import { menuModel, roleMenuModel, roleModel } from '../models'
 import { formatMenus } from '../utils'
-import { MenuParams } from '../types'
+import { MenuParams, UpdateMenuParams } from '../types'
 
 class MenuService {
   async getMenuListByRoleId(
     roleId: number,
-    search: { name: string; isEnable: number }
+    search: { title: string; isEnable: number }
   ) {
     try {
       const whereConditions: any = {
-        // 名称是title
         title: {
-          [Op.like]: `%${search.name || ''}%`,
+          [Op.like]: `%${search.title || ''}%`,
         },
       }
       if (search.isEnable === 0 || search.isEnable === 1) {
@@ -64,7 +63,20 @@ class MenuService {
           name,
         },
       })
-      return res
+      return res ? res.dataValues : null
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getMenuById(id: number) {
+    try {
+      const res = await menuModel.findOne({
+        where: {
+          id,
+        },
+      })
+      return res ? res.dataValues : null
     } catch (error) {
       console.log(error)
     }
@@ -79,6 +91,25 @@ class MenuService {
         roleId,
         menuId: newMenu.dataValues.id,
       })
+      return 'ok'
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async updateMenu(menu: UpdateMenuParams) {
+    try {
+      const { id, ...rest } = menu
+      await menuModel.update(
+        {
+          ...rest,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      )
       return 'ok'
     } catch (error) {
       console.log(error)

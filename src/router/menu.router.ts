@@ -13,4 +13,6 @@ menuRouter.post('/listAll', verifyAuth, menuController.allMenuList)
 
 menuRouter.post('/add', verifyAuth, verifySuper, menuController.addMenu)
 
+menuRouter.post('/update', verifyAuth, verifySuper, menuController.updateMenu)
+
 export default menuRouter

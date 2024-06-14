@@ -3,14 +3,14 @@ import { Context } from 'koa'
 import userService from '../service/user.service'
 import menuService from '../service/menu.service'
 import Joi from 'joi'
-import { MenuParams } from '../types'
+import { MenuParams, UpdateMenuParams } from '../types'
 import { ERROR_TYPES } from '../constant'
 
 class MenuController {
   async menuListByRole(ctx: Context) {
-    const search = ctx.request.body as { name: string; isEnable: number }
+    const search = ctx.request.body as { title: string; isEnable: number }
     const schema = Joi.object({
-      name: Joi.string().empty(''),
+      title: Joi.string().empty(''),
       isEnable: Joi.number().valid(0, 1, 2),
     })
     try {
@@ -74,6 +74,42 @@ class MenuController {
       code: 200,
       data: result,
       msg: '添加菜单成功',
+    }
+  }
+
+  async updateMenu(ctx: Context) {
+    const menuParam = ctx.request.body as UpdateMenuParams
+    const schema = Joi.object({
+      id: Joi.number().required(),
+      name: Joi.string().required(),
+      path: Joi.string().required(),
+      parentId: Joi.number().required(),
+      sort: Joi.number().empty(1),
+      icon: Joi.string().empty(''),
+      title: Joi.string().required(),
+      isLink: Joi.number().valid(0, 1).empty(0),
+      isEnable: Joi.number().valid(0, 1).empty(0),
+      isAffix: Joi.number().valid(0, 1).empty(0),
+      isKeepAlive: Joi.number().valid(0, 1).empty(0),
+    })
+    try {
+      await schema.validateAsync(menuParam)
+    } catch (error) {
+      return ctx.app.emit('error', error, ctx)
+    }
+    // 判断菜单不能重复
+    const old_menu = await menuService.getMenuByName(menuParam.name)
+    // 与本身同名忽略 与其他同名报错
+    if (old_menu && old_menu.id !== menuParam.id) {
+      const error = new Error(ERROR_TYPES.MENU_ALREADY_EXISTS)
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    const result = await menuService.updateMenu(menuParam)
+    ctx.body = {
+      code: 200,
+      data: result,
+      msg: '更新菜单成功',
     }
   }
 }
