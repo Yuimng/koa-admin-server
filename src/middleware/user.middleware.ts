@@ -61,4 +61,13 @@ const handlePassword = async (ctx: Context, next: Next) => {
   await next()
 }
 
-export { verifyUser, handlePassword }
+const verifySuper = async (ctx: Context, next: Next) => {
+  const loginUser = await userService.getUserInfoById(ctx.user.id)
+  if (loginUser.isSuper === 0) {
+    const error = new Error(ERROR_TYPES.UNPERMISSION)
+    return ctx.app.emit('error', error, ctx)
+  }
+  await next()
+}
+
+export { verifyUser, handlePassword, verifySuper }

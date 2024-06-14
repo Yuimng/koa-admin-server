@@ -73,3 +73,20 @@ export interface MenuBase {
 export interface Menu extends MenuBase {
   children?: Menu[]
 }
+
+export interface MenuParams {
+  name: string
+  path: string
+  parentId: number
+  sort: number
+  icon: string
+  title: string
+  isLink: string
+  isEnable: number
+  isAffix: number
+  isKeepAlive: number
+}
+
+export interface UpdateMenuParams extends MenuParams {
+  id: number
+}

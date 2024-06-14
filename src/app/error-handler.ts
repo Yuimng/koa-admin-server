@@ -34,6 +34,10 @@ export const errorHandler = (error: { message: string }, ctx: Context) => {
       status = 400 // No menu
       msg = ERROR_TYPES.MENU_NOT_EXISTS
       break
+    case ERROR_TYPES.MENU_ALREADY_EXISTS:
+      status = 409 // Conflict
+      msg = ERROR_TYPES.MENU_ALREADY_EXISTS
+      break
     case ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_DELETED:
       status = 401
       msg = ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_DELETED

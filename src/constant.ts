@@ -6,6 +6,7 @@ export enum ERROR_TYPES {
   UNAUTHORIZATION = '无效的token',
   UNPERMISSION = '没有权限',
   MENU_NOT_EXISTS = '菜单不存在',
+  MENU_ALREADY_EXISTS = '菜单已经存在',
   INITIAL_ADMIN_CANNOT_BE_DELETED = '初始管理员不能被删除',
   INITIAL_ADMIN_CANNOT_BE_MODIFIED = '初始管理员不能被修改',
   ROLE_ALREADY_EXISTS = '角色已经存在',

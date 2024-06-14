@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
-import { menuModel, roleModel } from '../models'
+import { menuModel, roleMenuModel, roleModel } from '../models'
 import { formatMenus } from '../utils'
+import { MenuParams } from '../types'
 
 class MenuService {
   async getMenuListByRoleId(
@@ -8,6 +9,16 @@ class MenuService {
     search: { name: string; isEnable: number }
   ) {
     try {
+      const whereConditions: any = {
+        // 名称是title
+        title: {
+          [Op.like]: `%${search.name || ''}%`,
+        },
+      }
+      if (search.isEnable === 0 || search.isEnable === 1) {
+        whereConditions.isSuper = search.isEnable
+      }
+
       const roleWithMenus = await roleModel.findOne({
         where: {
           id: roleId,
@@ -18,13 +29,7 @@ class MenuService {
             attributes: {
               exclude: ['updatedAt', 'deletedAt'],
             },
-            where: {
-              // 名称是title
-              title: {
-                [Op.like]: `%${search.name || ''}%`,
-              },
-              isEnable: search.isEnable,
-            },
+            where: whereConditions,
           },
         ],
       })
@@ -47,6 +52,34 @@ class MenuService {
         },
       })
       return formatMenus(menus)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getMenuByName(name: string) {
+    try {
+      const res = await menuModel.findOne({
+        where: {
+          name,
+        },
+      })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async addMenu(menu: MenuParams, roleId: number) {
+    try {
+      const newMenu = await menuModel.create({
+        ...menu,
+      })
+      const res = await roleMenuModel.create({
+        roleId,
+        menuId: newMenu.dataValues.id,
+      })
+      return 'ok'
     } catch (error) {
       console.log(error)
     }
