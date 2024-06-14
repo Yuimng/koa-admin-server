@@ -29,14 +29,11 @@ export interface RoleParams {
   roleName: string
   isSuper: number
   remark: string
+  menus: number[]
 }
 
-export interface UpdateRoleParams {
+export interface UpdateRoleParams extends RoleParams {
   id: number
-  role: string
-  roleName: string
-  isSuper: number
-  remark: string
 }
 
 export interface PageParams {

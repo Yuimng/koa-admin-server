@@ -59,6 +59,7 @@ class RoleController {
       roleName: Joi.string().required(),
       isSuper: Joi.number().empty(0),
       remark: Joi.string().empty(''),
+      menus: Joi.array().items(Joi.number()),
     })
     try {
       await schema.validateAsync(roleParam)
@@ -75,6 +76,12 @@ class RoleController {
     const loginUser = await userService.getUserInfoById(ctx.user.id)
     // 非管理员修改isSuper无权限
     if (loginUser.isSuper === 0 && roleParam.isSuper === 1) {
+      const error = new Error(ERROR_TYPES.UNPERMISSION)
+      return ctx.app.emit('error', error, ctx)
+    }
+    // 非管理员修改管理员角色无权限
+    const editRole = await roleService.getRoleById(roleParam.id)
+    if (editRole && editRole.isSuper === 1 && loginUser.isSuper === 0) {
       const error = new Error(ERROR_TYPES.UNPERMISSION)
       return ctx.app.emit('error', error, ctx)
     }

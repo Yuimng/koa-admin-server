@@ -9,20 +9,19 @@ import userService from '../service/user.service'
 const verifyRole = async (ctx: Context, next: Next) => {
   // 1.获取值
   const roleParam = ctx.request.body as RoleParams
-
   // 2.验证必要参数
   const schema = Joi.object({
     role: Joi.string().required(),
     roleName: Joi.string().required(),
     isSuper: Joi.number().required(),
     remark: Joi.string().empty(''),
+    menus: Joi.array().items(Joi.number()),
   })
   try {
     await schema.validateAsync(roleParam)
   } catch (error) {
     return ctx.app.emit('error', error, ctx)
   }
-
   // 3.先验证登录用户是否为管理员
   // verifyAuth   ctx.user = {"id": 1,"username": "admin_test","iat": 1718075827, "exp": 1718162227 }
   const loginUser = await userService.getUserInfoById(ctx.user.id)

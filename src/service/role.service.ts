@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
-import { roleModel, userRoleModel } from '../models'
+import { roleMenuModel, roleModel, userRoleModel } from '../models'
 import { RolePageParams, RoleParams, UpdateRoleParams } from '../types'
+import sequelizeBase from '../config/mysql'
 
 class RoleService {
   async getRoleById(id: number) {
@@ -69,11 +70,20 @@ class RoleService {
 
   async addNewRole(params: RoleParams) {
     try {
-      await roleModel.create({
-        role: params.role,
-        roleName: params.roleName,
-        isSuper: params.isSuper,
-        remark: params.remark,
+      await sequelizeBase.transaction(async (t: any) => {
+        const newRole = await roleModel.create({
+          role: params.role,
+          roleName: params.roleName,
+          isSuper: params.isSuper,
+          remark: params.remark,
+        })
+        const arr = params.menus.map((menuId: number) => {
+          return {
+            roleId: (newRole as any).id,
+            menuId: menuId,
+          }
+        })
+        await roleMenuModel.bulkCreate(arr, { transaction: t })
       })
       return 'ok'
     } catch (error) {
@@ -83,20 +93,37 @@ class RoleService {
 
   async updateRole(params: UpdateRoleParams) {
     try {
-      const { id, role, roleName, isSuper, remark } = params
-      await roleModel.update(
-        {
-          role,
-          roleName,
-          isSuper,
-          remark,
-        },
-        {
-          where: {
-            id,
+      await sequelizeBase.transaction(async (t: any) => {
+        const { id, role, roleName, isSuper, remark, menus } = params
+        await roleModel.update(
+          {
+            role,
+            roleName,
+            isSuper,
+            remark,
           },
-        }
-      )
+          {
+            where: {
+              id,
+            },
+          }
+        )
+        // 先清除
+        await roleMenuModel.destroy({
+          where: {
+            roleId: id,
+          },
+          force: true,
+          transaction: t,
+        })
+        const arr = menus.map((menuId: number) => {
+          return {
+            roleId: id,
+            menuId: menuId,
+          }
+        })
+        await roleMenuModel.bulkCreate(arr, { transaction: t })
+      })
       return 'ok'
     } catch (error) {
       console.log(error)
