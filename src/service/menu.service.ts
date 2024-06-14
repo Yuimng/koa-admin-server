@@ -115,6 +115,26 @@ class MenuService {
       console.log(error)
     }
   }
+
+  async deleteMenu(id: number) {
+    // 软删除已开启
+    try {
+      await menuModel.destroy({
+        where: {
+          id,
+        },
+      })
+      // 删除角色菜单关联
+      await roleMenuModel.destroy({
+        where: {
+          menuId: id,
+        },
+      })
+      return 'ok'
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export default new MenuService()

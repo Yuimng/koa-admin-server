@@ -112,6 +112,32 @@ class MenuController {
       msg: '更新菜单成功',
     }
   }
+
+  async deleteMenu(ctx: Context) {
+    const body = ctx.request.body as { id: number }
+
+    const schema = Joi.object({
+      id: Joi.number().required(),
+    })
+    try {
+      await schema.validateAsync(body)
+    } catch (error) {
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    const menu = await menuService.getMenuById(body.id)
+    if (!menu) {
+      const error = new Error(ERROR_TYPES.MENU_NOT_EXISTS)
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    const result = await menuService.deleteMenu(body.id)
+    ctx.body = {
+      code: 200,
+      data: result,
+      msg: '删除菜单成功',
+    }
+  }
 }
 
 export default new MenuController()
