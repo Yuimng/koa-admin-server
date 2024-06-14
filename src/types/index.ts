@@ -57,6 +57,7 @@ export interface MenuBase {
   id: number
   name: string
   path: string
+  component?: string
   parentId: number
   sort: number
   meta: {

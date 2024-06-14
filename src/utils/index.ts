@@ -24,7 +24,8 @@ export const formatMenus = (menus: any[]) => {
       id: menu.id,
       name: menu.name,
       path: menu.path,
-      parentId: menu.parentId, // 驼峰命名转换
+      component: menu.path + '/index',
+      parentId: menu.parentId,
       sort: menu.sort,
       meta: {
         // 以下数据转为meta对象的值
