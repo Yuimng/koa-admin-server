@@ -25,8 +25,14 @@ const model = sequelize.define(
       type: DataTypes.DATE,
       field: 'updated_at',
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      field: 'deleted_at',
+    },
   },
   {
+    // 启用paranoid 删除
+    paranoid: true,
     freezeTableName: true,
   }
 )

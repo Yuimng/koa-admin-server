@@ -66,6 +66,10 @@ export const errorHandler = (error: { message: string }, ctx: Context) => {
       status = 400
       msg = ERROR_TYPES.ROLE_HAS_ASSOCIATED_USERS
       break
+    case ERROR_TYPES.CANNOT_DELETE_SELF:
+      status = 409
+      msg = ERROR_TYPES.CANNOT_DELETE_SELF
+      break
     default:
       status = 404
       msg = error.message // 默认返回的错误信息

@@ -120,6 +120,11 @@ class UserController {
       const error = new Error(ERROR_TYPES.INITIAL_ADMIN_CANNOT_BE_DELETED)
       return ctx.app.emit('error', error, ctx)
     }
+    // 不可删除本身
+    if (body.id === ctx.user.id) {
+      const error = new Error(ERROR_TYPES.CANNOT_DELETE_SELF)
+      return ctx.app.emit('error', error, ctx)
+    }
 
     const loginUser = await userService.getUserInfoById(ctx.user.id)
 
