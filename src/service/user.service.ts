@@ -156,10 +156,12 @@ class UserService {
         // 软删除
         await userModel.destroy({
           where: { id },
+          force: true,
           transaction: t,
         })
         await userRoleModel.destroy({
           where: { userId: id },
+          force: true,
           transaction: t,
         })
       })
