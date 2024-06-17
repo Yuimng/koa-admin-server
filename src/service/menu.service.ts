@@ -15,7 +15,7 @@ class MenuService {
         },
       }
       if (search.isEnable === 0 || search.isEnable === 1) {
-        whereConditions.isSuper = search.isEnable
+        whereConditions.isEnable = search.isEnable
       }
 
       const roleWithMenus = await roleModel.findOne({
