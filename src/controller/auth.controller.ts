@@ -17,7 +17,7 @@ class AuthController {
 
     ctx.body = {
       code: 200,
-      data: { id, username, token },
+      data: { id, username, token, expires: getTimestamps(expires === '7d') },
       msg: '登录成功',
     }
   }
@@ -29,6 +29,16 @@ class AuthController {
       data: user,
       msg: '授权成功',
     }
+  }
+}
+
+// 秒级时间戳
+function getTimestamps(expires7d: boolean) {
+  const now = Date.now()
+  if (expires7d) {
+    return Math.floor((now + 7 * 24 * 60 * 60 * 1000) / 1000)
+  } else {
+    return Math.floor((now + 24 * 60 * 60 * 1000) / 1000)
   }
 }
 
