@@ -39,6 +39,8 @@ export const formatMenus = (menus: any[]) => {
       createdAt: menu.createdAt,
     })
   })
+  // 排序
+  menuList.sort((a, b) => a.sort - b.sort)
   // 将格式化的所有菜单根据 parentId 构建嵌套菜单
   return buildNestedMenus(menuList)
 }

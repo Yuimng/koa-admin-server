@@ -49,6 +49,7 @@ class MenuService {
         attributes: {
           exclude: ['updatedAt', 'deletedAt'],
         },
+        order: [['sort', 'ASC']],
       })
       return formatMenus(menus)
     } catch (error) {
