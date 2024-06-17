@@ -31,10 +31,10 @@ export const formatMenus = (menus: any[]) => {
         // 以下数据转为meta对象的值
         title: menu.title,
         icon: menu.icon,
-        isEnable: menu.isEnable,
-        isLink: menu.isLink,
-        isAffix: menu.isAffix,
-        isKeepAlive: menu.isKeepAlive,
+        isEnable: menu.isEnable === 1 ? true : false,
+        isLink: menu.isLink === 1 ? true : false,
+        isAffix: menu.isAffix === 1 ? true : false,
+        isKeepAlive: menu.isKeepAlive === 1 ? true : false,
       },
       createdAt: menu.createdAt,
     })

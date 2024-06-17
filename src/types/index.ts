@@ -50,26 +50,25 @@ export interface RolePageParams extends PageParams {
   isSuper: number
 }
 
-export interface MenuBase {
+export interface Menu {
   id: number
   name: string
   path: string
   component?: string
   parentId: number
   sort: number
-  meta: {
-    icon: string
-    title: string
-    isLink: string
-    isEnable: number
-    isAffix: number
-    isKeepAlive: number
-  }
+  meta: MetaProps
   createdAt: string
+  children?: Menu[]
 }
 
-export interface Menu extends MenuBase {
-  children?: Menu[]
+export interface MetaProps {
+  icon: string
+  title: string
+  isLink: boolean
+  isEnable: boolean
+  isAffix: boolean
+  isKeepAlive: boolean
 }
 
 export interface MenuParams {
