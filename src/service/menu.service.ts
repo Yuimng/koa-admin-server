@@ -92,6 +92,13 @@ class MenuService {
         roleId,
         menuId: newMenu.dataValues.id,
       })
+      // 任何角色创建菜单都添加给管理员角色
+      if (roleId !== 1) {
+        await roleMenuModel.create({
+          roleId: 1,
+          menuId: newMenu.dataValues.id,
+        })
+      }
       return 'ok'
     } catch (error) {
       console.log(error)
