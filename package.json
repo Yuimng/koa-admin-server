@@ -10,6 +10,8 @@
   ],
   "scripts": {
     "dev": "nodemon src/index.ts",
+    "prod": "node dist/src/index.js",
+    "build": "tsc && node copy.js",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
