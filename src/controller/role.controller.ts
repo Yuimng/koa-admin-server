@@ -66,8 +66,8 @@ class RoleController {
     } catch (error) {
       return ctx.app.emit('error', error, ctx)
     }
-    // 2.两个初始角色不可修改
-    if (roleParam.id === 1 || roleParam.id === 2) {
+    // 2.初始角色不可修改
+    if (roleParam.id === 1) {
       const error = new Error(ERROR_TYPES.INITIAL_ROLE_CANNOT_BE_MODIFIED)
       return ctx.app.emit('error', error, ctx)
     }
