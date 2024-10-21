@@ -1,4 +1,4 @@
-import { Menu } from '../types'
+import { Menu, DepartmentList } from '../types'
 import bcrypt from 'bcrypt'
 
 /**
@@ -74,4 +74,35 @@ function buildTreeMenu(menus: Menu[]): Menu[] {
     }
   })
   return roots // 返回根节点数组，即构建好的树形菜单
+}
+
+/**
+ * 构建树形部门列表
+ * @param
+ * @returns
+ */
+export const buildTreeDepartment = (departments: any[]): DepartmentList[] => {
+  const map: { [key: string]: DepartmentList } = {}
+  const tree: DepartmentList[] = []
+
+  // 创建一个映射，以便快速查找每个部门   数据库数据结构 .dataValues
+  departments.forEach((department) => {
+    map[department.code] = { ...department.dataValues, children: [] }
+  })
+
+  // 构建树结构
+  departments.forEach((department) => {
+    if (department.parentCode === '000') {
+      // 如果 parentCode 是 '000'，则该部门是根节点
+      tree.push(map[department.code])
+    } else {
+      // 否则，将该部门添加到其父部门的 children 数组中
+      const parent = map[department.parentCode]
+      if (parent) {
+        parent.children.push(map[department.code])
+      }
+    }
+  })
+
+  return tree
 }

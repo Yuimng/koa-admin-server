@@ -1,6 +1,7 @@
 import menuModel from './menu.model'
 import roleModel from './role.model'
 import userModel from './user.model'
+import departmentModel from './department.model'
 import roleMenuModel from './roleMenu.model'
 import userRoleModel from './userRole.model'
 
@@ -22,4 +23,18 @@ roleModel.belongsToMany(userModel, {
   foreignKey: 'roleId',
 })
 
-export { menuModel, roleModel, userModel, roleMenuModel, userRoleModel }
+/*
+  departmentModel 主键 code
+  作为 userModel 外键 deptCode
+*/
+userModel.belongsTo(departmentModel, { foreignKey: 'deptCode' })
+departmentModel.hasMany(userModel, { foreignKey: 'deptCode' })
+
+export {
+  menuModel,
+  roleModel,
+  userModel,
+  departmentModel,
+  roleMenuModel,
+  userRoleModel,
+}

@@ -26,6 +26,12 @@ const model = sequelize.define(
       type: DataTypes.STRING(400),
       allowNull: false,
     },
+    deptCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '100',
+      field: 'dept_code',
+    },
     email: {
       type: DataTypes.STRING(100),
     },

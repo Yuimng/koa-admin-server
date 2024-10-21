@@ -87,3 +87,13 @@ export interface MenuParams {
 export interface UpdateMenuParams extends MenuParams {
   id: number
 }
+
+export interface DepartmentList {
+  name: string
+  code: string
+  parentCode: string
+  sort: number
+  isEnable: number
+  createdAt: string
+  children?: DepartmentList[]
+}
