@@ -100,3 +100,14 @@ export interface DepartmentList {
   createdAt: string
   children?: DepartmentList[]
 }
+
+export interface DeptParams {
+  parentId: number
+  name: string
+  sort: number
+  isEnable: number
+}
+
+export interface UpdateDeptParams extends DeptParams {
+  id: number
+}

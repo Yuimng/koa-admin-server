@@ -15,4 +15,6 @@ export enum ERROR_TYPES {
   INITIAL_ROLE_CANNOT_BE_MODIFIED = '初始角色不能被修改',
   ROLE_HAS_ASSOCIATED_USERS = '角色拥有关联用户',
   CANNOT_DELETE_SELF = '无法删除本身',
+  DEPT_NOT_EXISTS = '部门不存在',
+  DEPT_HAS_ASSOCIATED_USERS = '部门拥有关联用户',
 }

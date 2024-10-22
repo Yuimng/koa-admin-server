@@ -66,7 +66,7 @@ const synchonize = async () => {
     username: ADMIN_CONFIG.username,
     password: ADMIN_CONFIG.password,
     name: ADMIN_CONFIG.name,
-    deptId: 1,
+    deptId: 4,
   })
   await userRoleModel.create({
     userId: newUser.dataValues.id,
@@ -77,7 +77,7 @@ const synchonize = async () => {
     username: TEST_CONFIG.username,
     password: TEST_CONFIG.password,
     name: TEST_CONFIG.name,
-    deptId: 1,
+    deptId: 5,
   })
   await userRoleModel.create({
     userId: newTester.dataValues.id,
