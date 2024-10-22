@@ -23,12 +23,8 @@ roleModel.belongsToMany(userModel, {
   foreignKey: 'roleId',
 })
 
-/*
-  departmentModel 主键 code
-  作为 userModel 外键 deptCode
-*/
-userModel.belongsTo(departmentModel, { foreignKey: 'deptCode' })
-departmentModel.hasMany(userModel, { foreignKey: 'deptCode' })
+userModel.belongsTo(departmentModel, { foreignKey: 'deptId' })
+departmentModel.hasMany(userModel, { foreignKey: 'deptId' })
 
 export {
   menuModel,

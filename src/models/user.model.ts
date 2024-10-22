@@ -26,11 +26,11 @@ const model = sequelize.define(
       type: DataTypes.STRING(400),
       allowNull: false,
     },
-    deptCode: {
-      type: DataTypes.STRING,
+    deptId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: '100',
-      field: 'dept_code',
+      defaultValue: 1,
+      field: 'dept_id',
     },
     email: {
       type: DataTypes.STRING(100),

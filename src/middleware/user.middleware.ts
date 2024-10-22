@@ -14,7 +14,7 @@ const verifyUser = async (ctx: Context, next: Next) => {
     username: Joi.string().required(),
     password: Joi.string().required(),
     roleId: Joi.number().required(),
-    deptCode: Joi.string().empty('100'),
+    deptId: Joi.number().empty(1),
     name: Joi.string().empty(''),
     email: Joi.string().empty(''),
     phone: Joi.string().empty(''),

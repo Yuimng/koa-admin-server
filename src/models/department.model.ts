@@ -5,24 +5,23 @@ import sequelize from '../config/mysql'
 const model = sequelize.define(
   'sys_department',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
     // 部门名称
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // 部门编码
-    code: {
-      type: DataTypes.STRING,
-      primaryKey: true,
-      unique: true, // 唯一性
-      allowNull: false,
-    },
     // 父级部门编码
-    parentCode: {
-      type: DataTypes.STRING,
+    parentId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
-      field: 'parent_code',
+      field: 'parent_id',
     },
     // 排序
     sort: {

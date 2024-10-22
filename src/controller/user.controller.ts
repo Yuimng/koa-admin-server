@@ -26,7 +26,7 @@ class UserController {
       username: Joi.string().empty(''),
       pageSize: Joi.number().required(),
       pageNo: Joi.number().required(),
-      deptCode: Joi.string().empty(''),
+      deptId: Joi.number().empty(1),
     })
     try {
       // 验证必要参数
@@ -59,7 +59,7 @@ class UserController {
       id: Joi.number().required(),
       username: Joi.string().required(),
       roleId: Joi.number().required(),
-      deptCode: Joi.string().empty('100'), // 默认100
+      deptId: Joi.number(), // 默认100
       name: Joi.string().empty(''),
       email: Joi.string().empty(''),
       phone: Joi.string().empty(''),

@@ -7,7 +7,7 @@ export interface LoginParams {
 export interface UserParams {
   username: string
   password: string
-  deptCode: string
+  deptId: number
   roleId: number
   name: string
   email: string
@@ -18,7 +18,7 @@ export interface UserParams {
 export interface UpdateUserParams {
   id: number
   username: string
-  deptCode: string
+  deptId: number
   roleId: number
   name: string
   email: string
@@ -45,7 +45,7 @@ export interface PageParams {
 
 export interface UserPageParams extends PageParams {
   username: string
-  deptCode: string
+  deptId: number
 }
 
 export interface RolePageParams extends PageParams {
@@ -92,9 +92,9 @@ export interface UpdateMenuParams extends MenuParams {
 }
 
 export interface DepartmentList {
+  id: number
+  parentId: number
   name: string
-  code: string
-  parentCode: string
   sort: number
   isEnable: number
   createdAt: string

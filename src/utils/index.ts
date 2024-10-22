@@ -87,34 +87,22 @@ export const buildTreeDepartment = (departments: any[]): DepartmentList[] => {
 
   // 创建一个映射，以便快速查找每个部门   数据库数据结构 .dataValues
   departments.forEach((department) => {
-    map[department.code] = { ...department.dataValues, children: [] }
+    map[department.id] = { ...department.dataValues, children: [] }
   })
 
   // 构建树结构
   departments.forEach((department) => {
-    if (department.parentCode === '000') {
-      // 如果 parentCode 是 '000'，则该部门是根节点
-      tree.push(map[department.code])
+    if (department.parentId === 0) {
+      // 如果 parentId === 0，则该部门是根节点
+      tree.push(map[department.id])
     } else {
       // 否则，将该部门添加到其父部门的 children 数组中
-      const parent = map[department.parentCode]
+      const parent = map[department.parentId]
       if (parent) {
-        parent.children.push(map[department.code])
+        parent.children.push(map[department.id])
       }
     }
   })
 
   return tree
-}
-
-export const selectCodes = (data: any[], code: string) => {
-  const result: any[] = []
-  data.forEach((item) => {
-    if (item.code === code) {
-      result.push(item)
-    } else if (item.children && item.children.length > 0) {
-      result.push(...selectCodes(item.children, code))
-    }
-  })
-  return result
 }

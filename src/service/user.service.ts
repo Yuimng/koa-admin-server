@@ -51,15 +51,15 @@ class UserService {
 
   async getUserList(params: UserPageParams) {
     try {
-      // 根据params.deptCode 获取该部门及其以下所有部门code
-      const deptCodes = await getDeptCodes(params.deptCode)
+      // 根据params.deptId 获取该部门及其以下所有部门id
+      const deptIds = await getDeptIds(params.deptId)
       const { count, rows } = await userModel.findAndCountAll({
         where: {
           username: {
             [Op.like]: '%' + params.username + '%',
           },
-          deptCode: {
-            [Op.in]: deptCodes,
+          deptId: {
+            [Op.in]: deptIds,
           },
         },
         include: [
@@ -100,7 +100,7 @@ class UserService {
           {
             username: user.username,
             password: user.password,
-            deptCode: user.deptCode || '100',
+            deptId: user.deptId || 1,
             name: user.name || '',
             email: user.email || '',
             phone: user.phone || '',
@@ -129,7 +129,7 @@ class UserService {
           {
             username: user.username,
             name: user.name,
-            deptCode: user.deptCode,
+            deptId: user.deptId,
             email: user.email,
             phone: user.phone,
             remark: user.remark,
@@ -182,29 +182,29 @@ class UserService {
 export default new UserService()
 
 /**
- * 获取部门及其子部门的所有部门code
- * @param deptCode 部门code
- * @returns 所有部门code
+ * 获取部门及其子部门的所有部门ids
+ * @param deptId 部门id
+ * @returns 所有部门ids
  */
-async function getDeptCodes(deptCode: string): Promise<string[]> {
-  const allDeptCodes: string[] = []
+async function getDeptIds(deptId: number): Promise<number[]> {
+  const allDeptIds: number[] = []
 
-  async function getSubDeptCodes(code: string) {
+  async function getSubDeptIds(id: number) {
     const subDepts = await departmentModel.findAll({
-      attributes: ['code'],
+      attributes: ['id'],
       where: {
-        parentCode: code,
+        parentId: id,
       },
     })
 
     for (const subDept of subDepts) {
-      allDeptCodes.push((subDept as any).code)
-      await getSubDeptCodes((subDept as any).code)
+      allDeptIds.push((subDept as any).id)
+      await getSubDeptIds((subDept as any).id)
     }
   }
+  // 加入本身id
+  allDeptIds.push(deptId)
+  await getSubDeptIds(deptId)
 
-  allDeptCodes.push(deptCode)
-  await getSubDeptCodes(deptCode)
-
-  return allDeptCodes
+  return allDeptIds
 }

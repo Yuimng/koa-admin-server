@@ -15,44 +15,36 @@ const synchonize = async () => {
   // 添加初始部门
   await departmentModel.create({
     name: 'YM科技',
-    code: '100',
-    parentCode: '000',
     sort: 1,
   })
   await departmentModel.create({
     name: '总公司',
-    code: '101',
-    parentCode: '100',
+    parentId: 1,
     sort: 1,
   })
   await departmentModel.create({
     name: '分公司',
-    code: '102',
-    parentCode: '100',
+    parentId: 1,
     sort: 1,
   })
   await departmentModel.create({
     name: '研发部门',
-    code: '103',
-    parentCode: '102',
+    parentId: 2,
     sort: 1,
   })
   await departmentModel.create({
     name: '测试部门',
-    code: '104',
-    parentCode: '102',
+    parentId: 2,
     sort: 1,
   })
   await departmentModel.create({
     name: '市场部门',
-    code: '105',
-    parentCode: '102',
+    parentId: 2,
     sort: 1,
   })
   await departmentModel.create({
     name: '市场部门',
-    code: '106',
-    parentCode: '103',
+    parentId: 3,
     sort: 1,
   })
 
@@ -74,7 +66,7 @@ const synchonize = async () => {
     username: ADMIN_CONFIG.username,
     password: ADMIN_CONFIG.password,
     name: ADMIN_CONFIG.name,
-    deptCode: '103',
+    deptId: 1,
   })
   await userRoleModel.create({
     userId: newUser.dataValues.id,
@@ -85,7 +77,7 @@ const synchonize = async () => {
     username: TEST_CONFIG.username,
     password: TEST_CONFIG.password,
     name: TEST_CONFIG.name,
-    deptCode: '104',
+    deptId: 1,
   })
   await userRoleModel.create({
     userId: newTester.dataValues.id,
