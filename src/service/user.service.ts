@@ -1,6 +1,6 @@
 import { Op, Transaction } from 'sequelize'
 import sequelizeBase from '../config/mysql'
-import { roleModel, userModel, userRoleModel } from '../models'
+import { departmentModel, roleModel, userModel, userRoleModel } from '../models'
 import { UserPageParams, UpdateUserParams, UserParams } from '../types'
 
 class UserService {
@@ -51,10 +51,15 @@ class UserService {
 
   async getUserList(params: UserPageParams) {
     try {
+      // 根据params.deptCode 获取该部门及其以下所有部门code
+      const deptCodes = await getDeptCodes(params.deptCode)
       const { count, rows } = await userModel.findAndCountAll({
         where: {
           username: {
             [Op.like]: '%' + params.username + '%',
+          },
+          deptCode: {
+            [Op.in]: deptCodes,
           },
         },
         include: [
@@ -95,6 +100,7 @@ class UserService {
           {
             username: user.username,
             password: user.password,
+            deptCode: user.deptCode || '100',
             name: user.name || '',
             email: user.email || '',
             phone: user.phone || '',
@@ -123,6 +129,7 @@ class UserService {
           {
             username: user.username,
             name: user.name,
+            deptCode: user.deptCode,
             email: user.email,
             phone: user.phone,
             remark: user.remark,
@@ -173,3 +180,31 @@ class UserService {
 }
 
 export default new UserService()
+
+/**
+ * 获取部门及其子部门的所有部门code
+ * @param deptCode 部门code
+ * @returns 所有部门code
+ */
+async function getDeptCodes(deptCode: string): Promise<string[]> {
+  const allDeptCodes: string[] = []
+
+  async function getSubDeptCodes(code: string) {
+    const subDepts = await departmentModel.findAll({
+      attributes: ['code'],
+      where: {
+        parentCode: code,
+      },
+    })
+
+    for (const subDept of subDepts) {
+      allDeptCodes.push((subDept as any).code)
+      await getSubDeptCodes((subDept as any).code)
+    }
+  }
+
+  allDeptCodes.push(deptCode)
+  await getSubDeptCodes(deptCode)
+
+  return allDeptCodes
+}

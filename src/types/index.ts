@@ -7,6 +7,7 @@ export interface LoginParams {
 export interface UserParams {
   username: string
   password: string
+  deptCode: string
   roleId: number
   name: string
   email: string
@@ -17,6 +18,7 @@ export interface UserParams {
 export interface UpdateUserParams {
   id: number
   username: string
+  deptCode: string
   roleId: number
   name: string
   email: string
@@ -43,6 +45,7 @@ export interface PageParams {
 
 export interface UserPageParams extends PageParams {
   username: string
+  deptCode: string
 }
 
 export interface RolePageParams extends PageParams {

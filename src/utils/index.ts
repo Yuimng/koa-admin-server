@@ -106,3 +106,15 @@ export const buildTreeDepartment = (departments: any[]): DepartmentList[] => {
 
   return tree
 }
+
+export const selectCodes = (data: any[], code: string) => {
+  const result: any[] = []
+  data.forEach((item) => {
+    if (item.code === code) {
+      result.push(item)
+    } else if (item.children && item.children.length > 0) {
+      result.push(...selectCodes(item.children, code))
+    }
+  })
+  return result
+}
