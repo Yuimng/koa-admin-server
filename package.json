@@ -8,6 +8,20 @@
     "typescript",
     "mysql"
   ],
+  "author": {
+    "name": "Yuimng",
+    "email": "944307891@qq.com",
+    "url": "https://github.com/Yuimng"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Yuimng/koa-admin-server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yuimng/koa-admin-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Yuimng/koa-admin-server/issues"
+  },
   "scripts": {
     "dev": "nodemon src/index.ts",
     "prod": "node dist/src/index.js",
@@ -15,8 +29,6 @@
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
-  "author": "Yuimng",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
