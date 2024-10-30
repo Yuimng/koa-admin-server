@@ -8,6 +8,7 @@ import roleMenuModel from './roleMenu.model'
 
 import { ADMIN_CONFIG, TEST_CONFIG } from '../config'
 import { departmentModel } from '.'
+import { PasswordToHash } from '../utils'
 
 const synchonize = async () => {
   await sequelize.sync({ force: true }) // 同步
@@ -64,7 +65,7 @@ const synchonize = async () => {
   // 默认管理员数据 用户必须先创建
   const newUser = await userModel.create({
     username: ADMIN_CONFIG.username,
-    password: ADMIN_CONFIG.password,
+    password: PasswordToHash(ADMIN_CONFIG.password),
     name: ADMIN_CONFIG.name,
     deptId: 4,
   })
@@ -75,7 +76,7 @@ const synchonize = async () => {
 
   const newTester = await userModel.create({
     username: TEST_CONFIG.username,
-    password: TEST_CONFIG.password,
+    password: PasswordToHash(TEST_CONFIG.password),
     name: TEST_CONFIG.name,
     deptId: 5,
   })
