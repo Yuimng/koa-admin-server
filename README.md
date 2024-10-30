@@ -23,15 +23,15 @@ pnpm run dev
 ```
 
 ##  初始数据关于数据库初始化同步（ps:不使用直接导入 ym_admin.sql文件的方式）
-src/app/index.ts 文件下有以下同步代码
+1. src/app/index.ts 文件下有以下同步代码
 
 ```
 // import synchonize from '../models/sync'
 // synchonize()
 ```
-解除注释
-pnpm run dev执行数据库会完全初始化数据
-具体初始化的数据看 src/models/sync.ts
-初始化之后记得重新注释，不然每次都初始化数据
-（ps: 初始化的数据比 直接导入少了一些菜单数据）
+2. 解除注释，pnpm run dev 执行数据库会完全初始化数据
+3. 具体初始化的数据看 src/models/sync.ts
+4. 初始化之后记得**重新注释**，不然每次都初始化数据
+
+（ps: 初始化的数据相较于直接导入 ym_admin.sql 少了一些菜单数据）
 
