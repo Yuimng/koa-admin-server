@@ -97,6 +97,12 @@ class MenuController {
     } catch (error) {
       return ctx.app.emit('error', error, ctx)
     }
+
+    if (menuParam.parentId === menuParam.id) {
+      const error = new Error('上级菜单不能与当前菜单相同')
+      return ctx.app.emit('error', error, ctx)
+    }
+
     // 判断菜单不能重复
     const old_menu = await menuService.getMenuByName(menuParam.name)
     // 与本身同名忽略 与其他同名报错
