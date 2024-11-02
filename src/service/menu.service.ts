@@ -57,6 +57,19 @@ class MenuService {
     }
   }
 
+  async getAllFlatMenus() {
+    try {
+      const menus = await menuModel.findAll({
+        attributes: {
+          exclude: ['updatedAt', 'deletedAt'],
+        },
+      })
+      return menus
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async getMenuByName(name: string) {
     try {
       const res = await menuModel.findOne({

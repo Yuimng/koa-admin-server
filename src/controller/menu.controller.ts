@@ -3,8 +3,9 @@ import { Context } from 'koa'
 import userService from '../service/user.service'
 import menuService from '../service/menu.service'
 import Joi from 'joi'
-import { MenuParams, UpdateMenuParams } from '../types'
+import { FlatMenu, MenuParams, UpdateMenuParams } from '../types'
 import { ERROR_TYPES } from '../constant'
+import { convertRawArray, getDescendants } from '../utils'
 
 class MenuController {
   async menuListByRole(ctx: Context) {
@@ -98,8 +99,15 @@ class MenuController {
       return ctx.app.emit('error', error, ctx)
     }
 
-    if (menuParam.parentId === menuParam.id) {
-      const error = new Error('上级菜单不能与当前菜单相同')
+    const flatMenus = await menuService.getAllFlatMenus()
+    const rewMenus = convertRawArray<FlatMenu>(flatMenus)
+
+    const nowAllowIds = getDescendants(rewMenus, menuParam.id).map(
+      (item) => item.id
+    )
+
+    if ([menuParam.id, ...nowAllowIds].includes(menuParam.parentId)) {
+      const error = new Error('上级菜单不能本身和子节点')
       return ctx.app.emit('error', error, ctx)
     }
 

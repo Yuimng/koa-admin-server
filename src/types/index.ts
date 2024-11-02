@@ -111,3 +111,27 @@ export interface DeptParams {
 export interface UpdateDeptParams extends DeptParams {
   id: number
 }
+
+export interface FlatMenu {
+  id: number
+  name: string
+  path: string
+  parentId: number
+  sort: number
+  title: string
+  icon: string
+  isLink: number
+  isEnable: number
+  isAffix: number
+  isKeepAlive: number
+  createdAt: string
+}
+
+export interface FlatDept {
+  id: number
+  name: string
+  parentId: number
+  sort: number
+  isEnable: number
+  createdAt: string
+}

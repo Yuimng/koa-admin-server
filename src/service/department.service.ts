@@ -18,6 +18,19 @@ class DepartmentService {
     }
   }
 
+  async getAllFlatDepts() {
+    try {
+      const depts = await departmentModel.findAll({
+        attributes: {
+          exclude: ['updatedAt', 'deletedAt'],
+        },
+      })
+      return depts
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async getDeptById(id: number) {
     try {
       const res = await departmentModel.findOne({

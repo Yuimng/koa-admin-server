@@ -1,9 +1,10 @@
 import { Context } from 'koa'
 
 import departmentService from '../service/department.service'
-import { DeptParams, UpdateDeptParams } from '../types'
+import { DeptParams, FlatDept, UpdateDeptParams } from '../types'
 import Joi from 'joi'
 import { ERROR_TYPES } from '../constant'
+import { convertRawArray, getDescendants } from '../utils'
 
 class DepartmentController {
   async allDepartmentList(ctx: Context) {
@@ -50,6 +51,18 @@ class DepartmentController {
     try {
       await schema.validateAsync(deptParam)
     } catch (error) {
+      return ctx.app.emit('error', error, ctx)
+    }
+
+    const flatDepts = await departmentService.getAllFlatDepts()
+    const rewDepts = convertRawArray<FlatDept>(flatDepts)
+
+    const nowAllowIds = getDescendants(rewDepts, deptParam.id).map(
+      (item) => item.id
+    )
+
+    if ([deptParam.id, ...nowAllowIds].includes(deptParam.parentId)) {
+      const error = new Error('上级部门不能本身和子节点')
       return ctx.app.emit('error', error, ctx)
     }
 

@@ -1,3 +1,4 @@
+import { Model } from 'sequelize'
 import { Menu, DepartmentList } from '../types'
 import bcrypt from 'bcrypt'
 
@@ -105,4 +106,38 @@ export const buildTreeDepartment = (departments: any[]): DepartmentList[] => {
   })
 
   return tree
+}
+
+/**
+ * 获取指定节点的所有子孙节点
+ * @param {Array} nodes 节点数组
+ * @param {number} id 指定节点 ID
+ * @returns {Array} 所有子孙节点
+ */
+
+interface Node {
+  id: number
+  parentId: number
+}
+
+/**
+ * 将 将数据库查询findAll的 数组中的 dataValues 转换为对象数组
+ * @param {Model<any, any>[]}
+ * @return {T[]}
+ */
+export function convertRawArray<T>(modelFindAll: Model<any, any>[]): T[] {
+  return modelFindAll.map((item) => item.dataValues)
+}
+
+export function getDescendants<T extends Node>(nodes: T[], id: number): T[] {
+  // 获取该节点的所有子节点
+  const childNodes = nodes.filter((n) => n.parentId === id)
+  // 如果没有子节点，则返回空数组
+  if (childNodes.length === 0) {
+    return []
+  }
+  // 递归地获取每个子节点的子孙节点，并将它们拼接到当前数组中
+  return childNodes.concat(
+    childNodes.map((node) => getDescendants(nodes, node.id)).flat()
+  )
 }
