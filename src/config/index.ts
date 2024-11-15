@@ -2,12 +2,10 @@ import fs from 'fs'
 import path from 'path'
 
 export const PRIVATE_KEY = fs.readFileSync(
-  path.resolve(__dirname, './keys/private-key.pem')
+  path.resolve('./keys/private-key.pem')
 )
 
-export const PUBLIC_KEY = fs.readFileSync(
-  path.resolve(__dirname, './keys/public-key.pem')
-)
+export const PUBLIC_KEY = fs.readFileSync(path.resolve('./keys/public-key.pem'))
 
 export const APP_HOST = process.env.APP_HOST as string
 export const APP_PORT = +(process.env.APP_PORT as string)

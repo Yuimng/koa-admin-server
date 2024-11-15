@@ -2,7 +2,7 @@
 node_modules
 dist
 
-src/config/keys
+
 
 # local env files
 .env
@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # uploads文件
 uploads/
+
+# keys 文件
+keys/

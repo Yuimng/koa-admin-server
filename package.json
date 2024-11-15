@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "prod": "node dist/src/index.js",
-    "build": "tsc && node copy.js",
+    "build": "tsc",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
