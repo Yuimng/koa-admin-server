@@ -11,7 +11,7 @@
      生成私钥公钥  [地址](https://blog.csdn.net/qq_41768644/article/details/140533819) 
 ```shell
 openssl genrsa -out private-key.pem 2048
-openssl rsa -in private_key.pem -pubout -out public-key.pem
+openssl rsa -in private-key.pem -pubout -out public-key.pem
 ```
 5. 执行命令
 ```shell
